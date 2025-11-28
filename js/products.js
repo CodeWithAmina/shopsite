@@ -16,24 +16,45 @@ function displayProducts() {
         products = [
             {
                 id: Date.now(),
-                name: "Sample Product 1",
-                price: 100,
-                description: "This is a sample product",
-                img: "https://via.placeholder.com/180"
+                name: "Premium Wireless Headphones",
+                price: 2999,
+                description: "High-quality sound with noise cancellation and 30-hour battery life",
+                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 1,
-                name: "Sample Product 2",
-                price: 200,
-                description: "Another sample product",
-                img: "https://via.placeholder.com/180"
+                name: "Smart Watch Pro",
+                price: 4999,
+                description: "Advanced fitness tracking, heart rate monitor, and 7-day battery",
+                img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 2,
-                name: "Sample Product 3",
-                price: 150,
-                description: "Yet another sample product",
-                img: "https://via.placeholder.com/180"
+                name: "USB-C Portable Charger",
+                price: 1499,
+                description: "Fast charging 20000mAh power bank with dual USB-C ports",
+                img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=500&fit=crop"
+            },
+            {
+                id: Date.now() + 3,
+                name: "4K Webcam",
+                price: 3499,
+                description: "Crystal clear 4K video for streaming and video calls",
+                img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&h=500&fit=crop"
+            },
+            {
+                id: Date.now() + 4,
+                name: "Mechanical Gaming Keyboard",
+                price: 3999,
+                description: "RGB backlit with cherry MX switches and aluminum frame",
+                img: "https://images.unsplash.com/photo-1587829191301-15ba540a9108?w=500&h=500&fit=crop"
+            },
+            {
+                id: Date.now() + 5,
+                name: "Premium Mouse Pad",
+                price: 899,
+                description: "Large extended gaming mouse pad with non-slip base",
+                img: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&h=500&fit=crop"
             }
         ];
         saveProducts(products);
@@ -45,23 +66,23 @@ function displayProducts() {
     products.forEach(p => {
         list.innerHTML += `
             <div class="product-card">
-                <div class="card shadow-lg h-100">
-                    <div style="position: relative; overflow: hidden;">
-                        <img src="${p.img}" class="card-img-top" alt="${p.name}">
-                        <span class="product-badge">In Stock</span>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title" style="color: #2c3e50; font-weight: 600;">${p.name}</h5>
-                        <p class="card-text text-muted flex-grow-1">${p.description}</p>
-                        <p class="product-price mb-3">₹${p.price.toLocaleString()}</p>
+                <div class="product-image">
+                    <img src="${p.img}" alt="${p.name}">
+                    <span class="product-badge">Hot Deal</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">${p.name}</h3>
+                    <p class="product-description">${p.description}</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹${p.price.toLocaleString()}</span>
                         ${user.email === "admin@gmail.com"
                             ? `
-                                <div class="admin-btn-group gap-2">
-                                    <button class="btn btn-warning btn-sm" onclick="edit(${p.id})" title="Edit this product">✏️ Edit</button>
-                                    <button class="btn btn-danger btn-sm" onclick="removeProduct(${p.id})" title="Delete this product">🗑️ Delete</button>
+                                <div class="admin-btn-group">
+                                    <button class="btn btn-warning btn-sm" onclick="edit(${p.id})" style="color: white;">✏️ Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="removeProduct(${p.id})">🗑️ Delete</button>
                                 </div>
                               `
-                            : `<button class="btn btn-primary w-100" onclick="addToCart(${p.id})">🛒 Add to Cart</button>`
+                            : `<button class="add-to-cart-btn" onclick="addToCart(${p.id})">🛒 Add</button>`
                         }
                     </div>
                 </div>
