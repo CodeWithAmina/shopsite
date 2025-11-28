@@ -64,10 +64,11 @@ function displayProducts() {
     list.innerHTML = "";
 
     products.forEach(p => {
+        const imgUrl = p.img || "https://via.placeholder.com/700x700?text=Shoe+Image";
         list.innerHTML += `
             <div class="product-card">
                 <div class="product-image">
-                    <img src="${p.img}" alt="${p.name}">
+                    <img src="${imgUrl}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/700x700?text=${p.name}'" loading="lazy">
                     <span class="product-badge">🔥 Limited Stock</span>
                 </div>
                 <div class="product-info">
