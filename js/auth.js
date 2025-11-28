@@ -1,9 +1,9 @@
 function registerUser() {
 
-    let name = name.value;
-    let email = email.value;
-    let pass = password.value;
-    let cpass = cpassword.value;
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
+    let cpass = document.getElementById("cpassword").value;
 
     if (!name || !email || !pass || !cpass) {
         alert("All fields required!");
@@ -32,8 +32,8 @@ function registerUser() {
 
 function login() {
 
-    let emailVal = email.value;
-    let passVal = password.value;
+    let emailVal = document.getElementById("email").value;
+    let passVal = document.getElementById("password").value;
 
     if (!emailVal || !passVal) {
         alert("Enter email & password");
@@ -42,8 +42,9 @@ function login() {
 
     // Admin login
     if (emailVal === "admin@gmail.com" && passVal === "admin123") {
-        localStorage.setItem("loggedInUser", "admin");
-        window.location.href = "index.html";
+        localStorage.setItem("loggedInUser", JSON.stringify({email: "admin@gmail.com", name: "Admin"}));
+        window.location.href = "./index.html";
+
         return;
     }
 
@@ -56,6 +57,6 @@ function login() {
         return;
     }
 
-    localStorage.setItem("loggedInUser", emailVal);
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
     window.location.href = "index.html";
 }

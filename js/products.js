@@ -1,28 +1,57 @@
+// Display all products on the shop page
 function displayProducts() {
+    checkLogin(); // ensure user is logged in
 
-    checkLogin();
-    let user = localStorage.getItem("loggedInUser");
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
 
-    if (user === "admin")
+    // Show "Add Product" button only for admin
+    if (user.email === "admin@gmail.com") {
         document.getElementById("adminBtn").classList.remove("d-none");
+    }
 
     let products = getProducts();
-    let list = document.getElementById("productList");
 
+    // If no products exist, preload some default products
+    if (products.length === 0) {
+        products = [
+            {
+                id: Date.now(),
+                name: "Sample Product 1",
+                price: 100,
+                description: "This is a sample product",
+                img: "https://via.placeholder.com/180"
+            },
+            {
+                id: Date.now() + 1,
+                name: "Sample Product 2",
+                price: 200,
+                description: "Another sample product",
+                img: "https://via.placeholder.com/180"
+            },
+            {
+                id: Date.now() + 2,
+                name: "Sample Product 3",
+                price: 150,
+                description: "Yet another sample product",
+                img: "https://via.placeholder.com/180"
+            }
+        ];
+        saveProducts(products);
+    }
+
+    const list = document.getElementById("productList");
     list.innerHTML = "";
 
     products.forEach(p => {
         list.innerHTML += `
             <div class="col-md-3 mb-4">
                 <div class="card shadow">
-                    <img src="${p.img}" height="180" class="card-img-top">
-
+                    <img src="${p.img}" class="card-img-top" height="180">
                     <div class="card-body">
                         <h5>${p.name}</h5>
                         <p>${p.description}</p>
                         <p><b>₹${p.price}</b></p>
-
-                        ${user === "admin"
+                        ${user.email === "admin@gmail.com"
                             ? `
                                 <button class="btn btn-warning w-100 mb-2" onclick="edit(${p.id})">Edit</button>
                                 <button class="btn btn-danger w-100" onclick="removeProduct(${p.id})">Delete</button>
@@ -31,80 +60,69 @@ function displayProducts() {
                         }
                     </div>
                 </div>
-            </div>`;
+            </div>
+        `;
     });
 }
 
+// Add a new product (admin only)
 function addProduct() {
-    let nameVal = pname.value;
-    let priceVal = price.value;
-    let descVal = desc.value;
-    let imgVal = img.value;
-
-    if (!nameVal || !priceVal || !descVal || !imgVal) {
-        alert("All fields required!");
-        return;
-    }
-
     let products = getProducts();
 
     products.push({
         id: Date.now(),
-        name: nameVal,
-        price: priceVal,
-        description: descVal,
-        img: imgVal
+        name: document.getElementById("pname").value,
+        price: parseFloat(document.getElementById("price").value),
+        description: document.getElementById("desc").value,
+        img: document.getElementById("img").value
     });
 
     saveProducts(products);
-
-    alert("Product added!");
     window.location.href = "shop.html";
 }
 
+// Remove a product (admin only)
 function removeProduct(id) {
-    let products = getProducts();
-    products = products.filter(p => p.id !== id);
+    let products = getProducts().filter(p => p.id !== id);
     saveProducts(products);
     displayProducts();
 }
 
+// Redirect to edit page
 function edit(id) {
     localStorage.setItem("editId", id);
     window.location.href = "editproduct.html";
 }
 
+// Load product info into edit page
 function loadProductToEdit() {
+    const id = localStorage.getItem("editId");
+    const products = getProducts();
+    const p = products.find(x => x.id == id);
 
-    let id = localStorage.getItem("editId");
-    let products = getProducts();
+    if (!p) return;
 
-    let p = products.find(x => x.id == id);
-
-    pname.value = p.name;
-    price.value = p.price;
-    desc.value = p.description;
-    img.value = p.img;
+    document.getElementById("pname").value = p.name;
+    document.getElementById("price").value = p.price;
+    document.getElementById("desc").value = p.description;
+    document.getElementById("img").value = p.img;
 }
 
+// Update the product after editing
 function updateProduct() {
-
-    let id = localStorage.getItem("editId");
-
+    const id = localStorage.getItem("editId");
     let products = getProducts();
 
     products = products.map(p => {
         if (p.id == id) {
-            p.name = pname.value;
-            p.price = price.value;
-            p.description = desc.value;
-            p.img = img.value;
+            p.name = document.getElementById("pname").value;
+            p.price = parseFloat(document.getElementById("price").value);
+            p.description = document.getElementById("desc").value;
+            p.img = document.getElementById("img").value;
         }
         return p;
     });
 
     saveProducts(products);
-
-    alert("Updated!");
     window.location.href = "shop.html";
 }
