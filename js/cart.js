@@ -10,13 +10,8 @@ function addToCart(id) {
 
     saveCart(cart);
     
-    // Show success toast
-    showToast("✅ Added to cart!");
-    
-    // Optional: Redirect to cart after 1.5 seconds
-    setTimeout(() => {
-        // Uncomment to auto-redirect: window.location.href = "cart.html";
-    }, 1500);
+    // Show success alert
+    AlertManager.success("✅ Added to cart!");
 }
 
 function loadCart() {
@@ -177,7 +172,7 @@ function removeFromCart(id) {
     let cart = getCart();
     cart = cart.filter(c => c.productId !== id);
     saveCart(cart);
-    showToast("🗑️ Item removed from cart");
+    AlertManager.success("🗑️ Item removed from cart");
     loadCart();
 }
 
@@ -215,11 +210,12 @@ function applyPromo() {
         sessionStorage.setItem("promoApplied", JSON.stringify(promoData));
         message.innerText = promoCodes[code].msg;
         message.className = "promo-message success";
-        showToast(promoCodes[code].msg);
+        AlertManager.success(promoCodes[code].msg);
         setTimeout(() => loadCart(), 500);
     } else {
         message.innerText = "Invalid promo code ❌";
         message.className = "promo-message error";
+        AlertManager.error("Invalid promo code ❌");
         sessionStorage.removeItem("promoApplied");
     }
 }
@@ -227,52 +223,15 @@ function applyPromo() {
 function goToCheckout() {
     let cart = getCart();
     if (cart.length === 0) {
-        showToast("Your cart is empty!");
+        AlertManager.error("Your cart is empty!");
         return;
     }
-    showToast("🚀 Proceeding to checkout...");
+    AlertManager.success("🚀 Proceeding to checkout...", 1000);
     setTimeout(() => {
         window.location.href = "checkout.html";
-    }, 800);
+    }, 1000);
 }
 
 function showToast(message) {
-    // Create toast element
-    let toast = document.createElement("div");
-    toast.innerText = message;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: rgba(0,0,0,0.9);
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 8px;
-        font-weight: 700;
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    `;
-    document.body.appendChild(toast);
-    
-    // Add animation
-    let style = document.createElement("style");
-    style.innerText = `
-        @keyframes slideIn {
-            from { 
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    setTimeout(() => {
-        toast.style.animation = "slideOut 0.3s ease";
-        setTimeout(() => toast.remove(), 300);
-    }, 2500);
+    AlertManager.show(message, 'info', 2500);
 }

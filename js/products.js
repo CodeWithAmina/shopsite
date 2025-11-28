@@ -107,25 +107,41 @@ function displayProducts() {
 
 // Add a new product (admin only)
 function addProduct() {
+    let name = document.getElementById("pname").value;
+    let price = document.getElementById("price").value;
+    let desc = document.getElementById("desc").value;
+    let img = document.getElementById("img").value;
+
+    if (!name || !price || !desc) {
+        AlertManager.warning("Please fill all product fields!");
+        return;
+    }
+
     let products = getProducts();
 
     products.push({
         id: Date.now(),
-        name: document.getElementById("pname").value,
-        price: parseFloat(document.getElementById("price").value),
-        description: document.getElementById("desc").value,
-        img: document.getElementById("img").value
+        name: name,
+        price: parseFloat(price),
+        description: desc,
+        img: img
     });
 
     saveProducts(products);
-    window.location.href = "shop.html";
+    AlertManager.success("✅ Product added successfully!", 1500);
+    setTimeout(() => {
+        window.location.href = "shop.html";
+    }, 1500);
 }
 
 // Remove a product (admin only)
 function removeProduct(id) {
-    let products = getProducts().filter(p => p.id !== id);
-    saveProducts(products);
-    displayProducts();
+    if (confirm("Are you sure you want to delete this product?")) {
+        let products = getProducts().filter(p => p.id !== id);
+        saveProducts(products);
+        AlertManager.success("✅ Product deleted!", 1000);
+        setTimeout(() => displayProducts(), 1000);
+    }
 }
 
 // Redirect to edit page
@@ -151,18 +167,31 @@ function loadProductToEdit() {
 // Update the product after editing
 function updateProduct() {
     const id = localStorage.getItem("editId");
+    let name = document.getElementById("pname").value;
+    let price = document.getElementById("price").value;
+    let desc = document.getElementById("desc").value;
+    let img = document.getElementById("img").value;
+
+    if (!name || !price || !desc) {
+        AlertManager.warning("Please fill all product fields!");
+        return;
+    }
+
     let products = getProducts();
 
     products = products.map(p => {
         if (p.id == id) {
-            p.name = document.getElementById("pname").value;
-            p.price = parseFloat(document.getElementById("price").value);
-            p.description = document.getElementById("desc").value;
-            p.img = document.getElementById("img").value;
+            p.name = name;
+            p.price = parseFloat(price);
+            p.description = desc;
+            p.img = img;
         }
         return p;
     });
 
     saveProducts(products);
-    window.location.href = "shop.html";
+    AlertManager.success("✅ Product updated successfully!", 1500);
+    setTimeout(() => {
+        window.location.href = "shop.html";
+    }, 1500);
 }

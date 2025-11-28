@@ -6,19 +6,19 @@ function registerUser() {
     let cpass = document.getElementById("cpassword").value;
 
     if (!name || !email || !pass || !cpass) {
-        alert("All fields required!");
+        AlertManager.warning("All fields are required!");
         return;
     }
 
     if (pass !== cpass) {
-        alert("Passwords do not match!");
+        AlertManager.error("Passwords do not match!");
         return;
     }
 
     let users = getUsers();
 
     if (users.some(u => u.email === email)) {
-        alert("Email already exists");
+        AlertManager.error("Email already registered!");
         return;
     }
 
@@ -26,8 +26,10 @@ function registerUser() {
 
     saveUsers(users);
 
-    alert("Registration successful!");
-    window.location.href = "login.html";
+    AlertManager.success("Registration successful! Redirecting to login...", 2000);
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 2000);
 }
 
 function loginUser() {
@@ -36,15 +38,17 @@ function loginUser() {
     let passVal = document.getElementById("password").value;
 
     if (!emailVal || !passVal) {
-        alert("Enter email & password");
+        AlertManager.warning("Please enter email and password");
         return;
     }
 
     // Admin login
     if (emailVal === "admin@gmail.com" && passVal === "admin123") {
+        AlertManager.success("Welcome Admin! 👑", 1500);
         localStorage.setItem("loggedInUser", JSON.stringify({email: "admin@gmail.com", name: "Admin"}));
-        window.location.href = "./index.html";
-
+        setTimeout(() => {
+            window.location.href = "./index.html";
+        }, 1500);
         return;
     }
 
@@ -53,10 +57,13 @@ function loginUser() {
     let user = users.find(u => u.email === emailVal && u.password === passVal);
 
     if (!user) {
-        alert("Invalid credentials!");
+        AlertManager.error("Invalid email or password!");
         return;
     }
 
+    AlertManager.success("Login successful! Welcome back 🎉", 1500);
     localStorage.setItem("loggedInUser", JSON.stringify(user));
-    window.location.href = "index.html";
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1500);
 }
