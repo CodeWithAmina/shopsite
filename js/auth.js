@@ -30,7 +30,7 @@ function registerUser() {
     window.location.href = "login.html";
 }
 
-function login() {
+function loginUser() {
 
     let emailVal = document.getElementById("email").value;
     let passVal = document.getElementById("password").value;
