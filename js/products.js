@@ -19,42 +19,42 @@ function displayProducts() {
                 name: "Nike Air Max 90",
                 price: 8999,
                 description: "Classic running shoes with excellent cushioning and breathable mesh",
-                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop&q=80"
             },
             {
                 id: Date.now() + 1,
                 name: "Adidas Ultraboost 22",
                 price: 12999,
                 description: "Premium running shoes with responsive boost technology for maximum comfort",
-                img: "https://images.unsplash.com/photo-1584633733177-7c5d5c6635d6?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1584633733177-7c5d5c6635d6?w=600&h=600&fit=crop&q=80"
             },
             {
                 id: Date.now() + 2,
                 name: "Puma RS-X Retro",
                 price: 7499,
                 description: "Retro style sneakers perfect for casual wear and daily comfort",
-                img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600&h=600&fit=crop&q=80"
             },
             {
                 id: Date.now() + 3,
                 name: "Converse Chuck Taylor",
                 price: 4999,
                 description: "Iconic canvas sneakers - a timeless classic for any occasion",
-                img: "https://images.unsplash.com/photo-1597045814000-4f2490a967d6?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1597045814000-4f2490a967d6?w=600&h=600&fit=crop&q=80"
             },
             {
                 id: Date.now() + 4,
                 name: "Vans Old Skool",
                 price: 5499,
                 description: "Durable skate shoes with timeless design and great ankle support",
-                img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&h=600&fit=crop&q=80"
             },
             {
                 id: Date.now() + 5,
                 name: "New Balance 990v5",
                 price: 11999,
                 description: "Premium cushioned running shoes with superior arch support and stability",
-                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop"
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop&q=80"
             }
         ];
         saveProducts(products);
