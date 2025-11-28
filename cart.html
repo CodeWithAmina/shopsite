@@ -46,6 +46,68 @@
             margin-bottom: 2rem;
         }
 
+        .shipping-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            border-top: 4px solid #e94560;
+        }
+
+        .shipping-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #1a1a2e;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .shipping-form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .shipping-form-group label {
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .shipping-form-group input {
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .shipping-form-group input:focus {
+            border-color: #e94560;
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+            outline: none;
+        }
+
+        .shipping-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .shipping-info-box {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.05) 0%, rgba(247, 127, 136, 0.05) 100%);
+            border-left: 4px solid #e94560;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         .cart-items-section {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
@@ -368,6 +430,9 @@
 
 <div class="container mt-4">
     <h2 class="page-title">🛒 Shopping Cart</h2>
+    
+    <!-- Shipping Address Section -->
+    <div id="shippingSection"></div>
     
     <div class="cart-container">
         <div class="cart-items-section">

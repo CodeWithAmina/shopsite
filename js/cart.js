@@ -33,6 +33,7 @@ function loadCart() {
     let container = document.getElementById("cartItems");
     let summaryContainer = document.getElementById("cartSummary");
     let badgeContainer = document.getElementById("cartBadge");
+    let shippingContainer = document.getElementById("shippingSection");
     let total = 0;
     let itemCount = 0;
 
@@ -51,6 +52,7 @@ function loadCart() {
         `;
         summaryContainer.innerHTML = '';
         badgeContainer.innerHTML = '';
+        shippingContainer.innerHTML = '';
         
         // Show empty cart modal
         setTimeout(() => {
@@ -62,6 +64,72 @@ function loadCart() {
         
         return;
     }
+
+    // Display shipping address form
+    let savedAddress = JSON.parse(localStorage.getItem("shippingAddress")) || {};
+    
+    shippingContainer.innerHTML = `
+        <div class="shipping-section">
+            <h3 class="shipping-title">📦 Shipping Address</h3>
+            
+            <div class="shipping-info-box">
+                ℹ️ Please enter your delivery address. You'll need this to complete your order.
+            </div>
+
+            <div class="shipping-form-row">
+                <div class="shipping-form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="firstName" placeholder="John" value="${savedAddress.firstName || ''}">
+                </div>
+                <div class="shipping-form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="lastName" placeholder="Doe" value="${savedAddress.lastName || ''}">
+                </div>
+            </div>
+
+            <div class="shipping-form-row">
+                <div class="shipping-form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" placeholder="john@example.com" value="${savedAddress.email || ''}">
+                </div>
+                <div class="shipping-form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="+91 9876543210" value="${savedAddress.phone || ''}">
+                </div>
+            </div>
+
+            <div class="shipping-form-group">
+                <label>Street Address *</label>
+                <input type="text" id="address" placeholder="123 Main Street" value="${savedAddress.address || ''}">
+            </div>
+
+            <div class="shipping-form-row">
+                <div class="shipping-form-group">
+                    <label>City *</label>
+                    <input type="text" id="city" placeholder="Mumbai" value="${savedAddress.city || ''}">
+                </div>
+                <div class="shipping-form-group">
+                    <label>Postal Code *</label>
+                    <input type="text" id="postalCode" placeholder="400001" value="${savedAddress.postalCode || ''}">
+                </div>
+            </div>
+
+            <div class="shipping-form-row">
+                <div class="shipping-form-group">
+                    <label>State *</label>
+                    <input type="text" id="state" placeholder="Maharashtra" value="${savedAddress.state || ''}">
+                </div>
+                <div class="shipping-form-group">
+                    <label>Country</label>
+                    <input type="text" id="country" placeholder="India" value="${savedAddress.country || 'India'}" disabled style="background: #f5f5f5;">
+                </div>
+            </div>
+
+            <button onclick="saveShippingAddress()" style="width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #4E7FFF 0%, #3E6FFF 100%); color: white; border: none; border-radius: 8px; font-weight: 700; margin-top: 1rem; cursor: pointer;">
+                ✅ Save Address
+            </button>
+        </div>
+    `;
 
     // Display cart badge
     cart.forEach(c => {
@@ -250,10 +318,94 @@ function applyPromo() {
     }
 }
 
+function saveShippingAddress() {
+    // Get all form values
+    let firstName = document.getElementById("firstName").value.trim();
+    let lastName = document.getElementById("lastName").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
+    let city = document.getElementById("city").value.trim();
+    let state = document.getElementById("state").value.trim();
+    let postalCode = document.getElementById("postalCode").value.trim();
+    let country = "India";
+
+    // Validation
+    if (!firstName) {
+        AlertManager.error("❌ First Name is required");
+        return;
+    }
+    if (!lastName) {
+        AlertManager.error("❌ Last Name is required");
+        return;
+    }
+    if (!email || !email.includes("@")) {
+        AlertManager.error("❌ Valid Email is required");
+        return;
+    }
+    if (!phone || phone.length < 10) {
+        AlertManager.error("❌ Valid Phone Number is required");
+        return;
+    }
+    if (!address) {
+        AlertManager.error("❌ Street Address is required");
+        return;
+    }
+    if (!city) {
+        AlertManager.error("❌ City is required");
+        return;
+    }
+    if (!state) {
+        AlertManager.error("❌ State is required");
+        return;
+    }
+    if (!postalCode || postalCode.length < 5) {
+        AlertManager.error("❌ Valid Postal Code is required");
+        return;
+    }
+
+    // Save to localStorage
+    let shippingData = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        postalCode,
+        country,
+        savedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem("shippingAddress", JSON.stringify(shippingData));
+    
+    AlertManager.success("✅ Address saved successfully!");
+    
+    // Show confirmation modal
+    ModalAlert.success("Shipping Address Saved ✓", 
+        `${firstName} ${lastName}, ${city}, ${state} ${postalCode}`,
+        [{ text: 'OK', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+    );
+}
+
 function goToCheckout() {
     let cart = getCart();
     if (cart.length === 0) {
         AlertManager.error("Your cart is empty!");
+        return;
+    }
+
+    // Check if shipping address is saved
+    let shippingAddress = localStorage.getItem("shippingAddress");
+    if (!shippingAddress) {
+        AlertManager.error("❌ Please save your shipping address first");
+        ModalAlert.warning("Complete Your Address 📦", 
+            "You must fill in and save your shipping address before checkout.",
+            [{ text: 'OK', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+        );
+        // Scroll to shipping section
+        document.getElementById("shippingSection").scrollIntoView({ behavior: 'smooth' });
         return;
     }
     
@@ -273,14 +425,79 @@ function goToCheckout() {
     }
     
     let grandTotal = subtotal + tax - discountAmount;
+    let shippingData = JSON.parse(shippingAddress);
     
-    ModalAlert.info("Proceed to Checkout? 💳", 
-        `Order Total: ₹${grandTotal.toLocaleString()} | Items: ${cart.length}`,
+    // Generate a unique modal ID for consistent button references
+    const checkoutModalId = 'checkout-modal-' + Date.now();
+    
+    ModalAlert.show("Proceed to Checkout? 💳", 
+        `📍 Shipping: ${shippingData.city}, ${shippingData.state}<br>💰 Total: ₹${grandTotal.toLocaleString()}`,
+        'info',
         [
-            { text: 'Cancel', type: 'secondary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` },
-            { text: 'Checkout', type: 'success', onClick: `window.location.href='checkout.html'` }
+            { text: 'Cancel', type: 'secondary', onClick: `ModalAlert.close('${checkoutModalId}')` },
+            { text: '✅ Place Order', type: 'success', onClick: `placeOrder('${checkoutModalId}', ${grandTotal})` }
         ]
     );
+}
+
+function placeOrder(modalId, grandTotal) {
+    // Close the confirmation modal
+    ModalAlert.close(modalId);
+    
+    // Get cart and shipping data
+    let cart = getCart();
+    let shippingData = JSON.parse(localStorage.getItem("shippingAddress"));
+    let promoApplied = sessionStorage.getItem("promoApplied") ? JSON.parse(sessionStorage.getItem("promoApplied")) : null;
+    
+    // Create order object
+    let order = {
+        id: Math.floor(Math.random() * 100000) + 10000, // Random 5-digit order ID
+        items: cart,
+        shipping: shippingData,
+        total: grandTotal,
+        promoCode: promoApplied ? promoApplied.code : null,
+        discount: promoApplied ? promoApplied.discount : 0,
+        orderDate: new Date().toISOString(),
+        status: 'Confirmed'
+    };
+    
+    // Save order to localStorage
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    
+    // Clear cart and promo
+    localStorage.removeItem("cart");
+    sessionStorage.removeItem("promoApplied");
+    
+    // Show success toast
+    AlertManager.success("✅ Order placed successfully!");
+    
+    // Show order confirmation modal
+    setTimeout(() => {
+        const itemsList = cart.map(c => {
+            let products = getProducts();
+            let product = products.find(p => p.id === c.productId);
+            return `${product.name} x${c.qty}`;
+        }).join('<br>');
+        
+        ModalAlert.show("🎉 Order Placed Successfully!", 
+            `<div style="text-align: left; margin: 1rem 0;">
+                <strong>Order ID:</strong> #${order.id}<br><br>
+                <strong>Items:</strong><br>${itemsList}<br><br>
+                <strong>Delivery Address:</strong><br>
+                ${shippingData.firstName} ${shippingData.lastName}<br>
+                ${shippingData.address}<br>
+                ${shippingData.city}, ${shippingData.state} ${shippingData.postalCode}<br><br>
+                <strong style="color: #e94560;">Total: ₹${grandTotal.toLocaleString()}</strong>
+            </div>`,
+            'success',
+            [
+                { text: '🏠 Back to Home', type: 'primary', onClick: `window.location.href='index.html'` },
+                { text: '🛍️ Continue Shopping', type: 'secondary', onClick: `window.location.href='shop.html'` }
+            ]
+        );
+    }, 500);
 }
 
 function showToast(message) {
