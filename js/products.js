@@ -46,17 +46,19 @@ function displayProducts() {
         list.innerHTML += `
             <div class="col-md-3 mb-4">
                 <div class="card shadow">
-                    <img src="${p.img}" class="card-img-top" height="180">
+                    <img src="${p.img}" class="card-img-top" height="200" alt="${p.name}">
                     <div class="card-body">
-                        <h5>${p.name}</h5>
-                        <p>${p.description}</p>
-                        <p><b>₹${p.price}</b></p>
+                        <h5 class="card-title">${p.name}</h5>
+                        <p class="card-text text-muted">${p.description}</p>
+                        <p class="product-price">₹${p.price}</p>
                         ${user.email === "admin@gmail.com"
                             ? `
-                                <button class="btn btn-warning w-100 mb-2" onclick="edit(${p.id})">Edit</button>
-                                <button class="btn btn-danger w-100" onclick="removeProduct(${p.id})">Delete</button>
+                                <div class="admin-btn-group">
+                                    <button class="btn btn-warning btn-sm flex-grow-1" onclick="edit(${p.id})">✏️ Edit</button>
+                                    <button class="btn btn-danger btn-sm flex-grow-1" onclick="removeProduct(${p.id})">🗑️ Delete</button>
+                                </div>
                               `
-                            : `<button class="btn btn-primary w-100" onclick="addToCart(${p.id})">Add to Cart</button>`
+                            : `<button class="btn btn-primary w-100" onclick="addToCart(${p.id})">🛒 Add to Cart</button>`
                         }
                     </div>
                 </div>

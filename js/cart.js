@@ -26,18 +26,27 @@ function loadCart() {
 
     container.innerHTML = "";
 
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color: white; text-align: center; font-size: 1.2rem;">Your cart is empty</p>';
+        document.getElementById("total").innerText = "0";
+        return;
+    }
+
     cart.forEach(c => {
 
         let p = products.find(x => x.id === c.productId);
 
+        if (!p) return;
+
         total += p.price * c.qty;
 
         container.innerHTML += `
-            <div class="card p-3 mb-3 shadow">
-                <h5>${p.name}</h5>
-                <p>₹${p.price} × ${c.qty} = ₹${p.price * c.qty}</p>
-
-                <button class="btn btn-danger btn-sm" onclick="removeFromCart(${c.productId})">Remove</button>
+            <div class="card-body cart-card">
+                <div>
+                    <h5>${p.name}</h5>
+                    <p class="text-muted">₹${p.price} × ${c.qty} = <strong>₹${p.price * c.qty}</strong></p>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="removeFromCart(${c.productId})">🗑️ Remove</button>
             </div>
         `;
     });
