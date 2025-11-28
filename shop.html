@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <script defer src="js/alerts.js"></script>
+    <script defer src="js/modal-alerts.js"></script>
     <script defer src="js/app.js"></script>
     <script defer src="js/products.js"></script>
     <script defer src="js/cart.js"></script>
@@ -343,7 +344,23 @@
         document.getElementById("productCount").innerText = `${products.length} shoe${products.length !== 1 ? 's' : ''} available`;
     }
     
-    setTimeout(updateProductCount, 800);
+    setTimeout(() => {
+        updateProductCount();
+        
+        // Show shop page welcome alert
+        const user = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (user.email === "admin@gmail.com") {
+            ModalAlert.info("👟 Admin Dashboard", 
+                "You can add, edit, or delete products. Click the 'Add Product' button to manage inventory.",
+                [{ text: 'Understand', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+            );
+        } else {
+            ModalAlert.success("🛍️ Welcome to Our Shop!", 
+                "Explore our premium collection of shoes from world-class brands. Apply promo codes at checkout for exclusive discounts!",
+                [{ text: 'Browse Now', type: 'success', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+            );
+        }
+    }, 600);
 </script>
 
 </body>

@@ -1,6 +1,8 @@
 function addToCart(id) {
     let cart = getCart();
     let item = cart.find(c => c.productId === id);
+    let products = getProducts();
+    let product = products.find(p => p.id === id);
 
     if (item) {
         item.qty++;
@@ -12,6 +14,15 @@ function addToCart(id) {
     
     // Show success alert
     AlertManager.success("✅ Added to cart!");
+    
+    // Show modal confirmation
+    ModalAlert.success("Added to Cart! 🛒", 
+        `${product.name} has been added to your cart.`,
+        [
+            { text: 'Continue Shopping', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` },
+            { text: 'Go to Cart', type: 'success', onClick: `window.location.href='cart.html'` }
+        ]
+    );
 }
 
 function loadCart() {
@@ -40,6 +51,15 @@ function loadCart() {
         `;
         summaryContainer.innerHTML = '';
         badgeContainer.innerHTML = '';
+        
+        // Show empty cart modal
+        setTimeout(() => {
+            ModalAlert.warning("Cart is Empty! 🛒", 
+                "Your shopping cart is currently empty. Browse our amazing collection of premium shoes.",
+                [{ text: 'Start Shopping', type: 'primary', onClick: `window.location.href='shop.html'` }]
+            );
+        }, 500);
+        
         return;
     }
 
@@ -170,10 +190,20 @@ function decreaseQty(id) {
 
 function removeFromCart(id) {
     let cart = getCart();
+    let products = getProducts();
+    let product = products.find(p => p.id === id);
+    
     cart = cart.filter(c => c.productId !== id);
     saveCart(cart);
+    
     AlertManager.success("🗑️ Item removed from cart");
-    loadCart();
+    
+    ModalAlert.info("Item Removed ✓", 
+        `${product.name} has been removed from your cart.`,
+        [{ text: 'OK', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+    );
+    
+    setTimeout(() => loadCart(), 1000);
 }
 
 function applyPromo() {
@@ -226,10 +256,31 @@ function goToCheckout() {
         AlertManager.error("Your cart is empty!");
         return;
     }
-    AlertManager.success("🚀 Proceeding to checkout...", 1000);
-    setTimeout(() => {
-        window.location.href = "checkout.html";
-    }, 1000);
+    
+    let products = getProducts();
+    let subtotal = 0;
+    cart.forEach(c => {
+        let p = products.find(x => x.id === c.productId);
+        if (p) subtotal += p.price * c.qty;
+    });
+    
+    let tax = Math.round(subtotal * 0.18);
+    let discountAmount = 0;
+    let promoApplied = sessionStorage.getItem("promoApplied");
+    if (promoApplied) {
+        let promoData = JSON.parse(promoApplied);
+        discountAmount = promoData.discount;
+    }
+    
+    let grandTotal = subtotal + tax - discountAmount;
+    
+    ModalAlert.info("Proceed to Checkout? 💳", 
+        `Order Total: ₹${grandTotal.toLocaleString()} | Items: ${cart.length}`,
+        [
+            { text: 'Cancel', type: 'secondary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` },
+            { text: 'Checkout', type: 'success', onClick: `window.location.href='checkout.html'` }
+        ]
+    );
 }
 
 function showToast(message) {

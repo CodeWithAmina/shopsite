@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <script defer src="js/alerts.js"></script>
+    <script defer src="js/modal-alerts.js"></script>
     <script defer src="js/app.js"></script>
     <style>
         * {
@@ -382,6 +383,21 @@
 <script>
 let user = JSON.parse(localStorage.getItem("loggedInUser"));
 document.getElementById("username").innerText = user.name;
+
+// Welcome Modal Alert
+setTimeout(() => {
+    if (user.email === "admin@gmail.com") {
+        ModalAlert.info("Welcome Back, Admin! 👑", 
+            "You have full access to manage products, view orders, and monitor sales. Manage your store efficiently from the admin dashboard.",
+            [{ text: 'Got it!', type: 'primary', onClick: `ModalAlert.close('modal-alert-${Date.now()}')` }]
+        );
+    } else {
+        ModalAlert.success(`Welcome, ${user.name}! 🎉`, 
+            "Browse our exclusive collection of premium shoes. Use promo code SAVE10 for 10% off your first purchase!",
+            [{ text: 'Start Shopping', type: 'success', onClick: `window.location.href='shop.html'` }]
+        );
+    }
+}, 500);
 </script>
 
 </body>
