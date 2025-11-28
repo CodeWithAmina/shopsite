@@ -44,18 +44,21 @@ function displayProducts() {
 
     products.forEach(p => {
         list.innerHTML += `
-            <div class="col-md-3 mb-4">
-                <div class="card shadow">
-                    <img src="${p.img}" class="card-img-top" height="200" alt="${p.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${p.name}</h5>
-                        <p class="card-text text-muted">${p.description}</p>
-                        <p class="product-price">₹${p.price}</p>
+            <div class="product-card">
+                <div class="card shadow-lg h-100">
+                    <div style="position: relative; overflow: hidden;">
+                        <img src="${p.img}" class="card-img-top" alt="${p.name}">
+                        <span class="product-badge">In Stock</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title" style="color: #2c3e50; font-weight: 600;">${p.name}</h5>
+                        <p class="card-text text-muted flex-grow-1">${p.description}</p>
+                        <p class="product-price mb-3">₹${p.price.toLocaleString()}</p>
                         ${user.email === "admin@gmail.com"
                             ? `
-                                <div class="admin-btn-group">
-                                    <button class="btn btn-warning btn-sm flex-grow-1" onclick="edit(${p.id})">✏️ Edit</button>
-                                    <button class="btn btn-danger btn-sm flex-grow-1" onclick="removeProduct(${p.id})">🗑️ Delete</button>
+                                <div class="admin-btn-group gap-2">
+                                    <button class="btn btn-warning btn-sm" onclick="edit(${p.id})" title="Edit this product">✏️ Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="removeProduct(${p.id})" title="Delete this product">🗑️ Delete</button>
                                 </div>
                               `
                             : `<button class="btn btn-primary w-100" onclick="addToCart(${p.id})">🛒 Add to Cart</button>`
