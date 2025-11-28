@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShoeBay - Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script defer src="js/app.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0d1b2a 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+            border-bottom: 2px solid #e94560;
+            padding: 1rem 2rem !important;
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .checkout-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .checkout-form h3 {
+            color: #1a1a2e;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #e94560;
+            box-shadow: 0 0 0 0.2rem rgba(233, 69, 96, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-option {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.05);
+        }
+
+        .payment-option.active {
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .order-summary h3 {
+            color: #1a1a2e;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .summary-item:last-of-type {
+            border-bottom: 2px solid #e94560;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .promo-box {
+            background: rgba(233, 69, 96, 0.1);
+            border: 2px solid #e94560;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .promo-box input {
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-box button {
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .place-order-btn {
+            background: linear-gradient(135deg, #e94560 0%, #f77f88 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            font-weight: 700;
+        }
+
+        .step.active {
+            background: linear-gradient(135deg, #e94560 0%, #f77f88 100%);
+        }
+
+        .step-number {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body onload="initCheckout()">
+
+<nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand" style="font-size: 1.8rem; font-weight: 900; letter-spacing: 1px;">👟 ShoeBay</a>
+    <div>
+        <a href="cart.html" class="btn btn-light btn-sm">← Back to Cart</a>
+        <button onclick="logout()" class="btn btn-outline-light btn-sm">Logout</button>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="steps">
+        <div class="step active">
+            <div class="step-number">1️⃣</div>
+            <div>Shipping</div>
+        </div>
+        <div class="step">
+            <div class="step-number">2️⃣</div>
+            <div>Payment</div>
+        </div>
+        <div class="step">
+            <div class="step-number">3️⃣</div>
+            <div>Confirmation</div>
+        </div>
+    </div>
+
+    <div class="checkout-container">
+        <div class="checkout-form">
+            <h3>📦 Shipping Address</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" class="form-control" id="email" placeholder="john@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+91 9876543210">
+            </div>
+
+            <div class="form-group">
+                <label>Street Address *</label>
+                <input type="text" class="form-control" id="address" placeholder="123 Main St">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" class="form-control" id="city" placeholder="Mumbai">
+                </div>
+                <div class="form-group">
+                    <label>Postal Code *</label>
+                    <input type="text" class="form-control" id="postalCode" placeholder="400001">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>State *</label>
+                <input type="text" class="form-control" id="state" placeholder="Maharashtra">
+            </div>
+
+            <hr style="margin: 2rem 0; border-color: #ddd;">
+
+            <h3>💳 Payment Method</h3>
+
+            <div class="payment-methods">
+                <label class="payment-option active">
+                    <input type="radio" name="payment" value="card" checked>
+                    <div class="payment-icon">💳</div>
+                    <div>Credit/Debit Card</div>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="upi">
+                    <div class="payment-icon">📱</div>
+                    <div>UPI</div>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="wallet">
+                    <div class="payment-icon">👛</div>
+                    <div>Wallet</div>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="cod">
+                    <div class="payment-icon">🚚</div>
+                    <div>Cash on Delivery</div>
+                </label>
+            </div>
+
+            <div id="cardPayment" class="payment-details" style="display: block;">
+                <div class="form-group">
+                    <label>Card Number *</label>
+                    <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiry Date *</label>
+                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV *</label>
+                        <input type="text" class="form-control" id="cvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cardholder Name *</label>
+                    <input type="text" class="form-control" id="cardholderName" placeholder="John Doe">
+                </div>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h3>📋 Order Summary</h3>
+            <div id="summaryItems"></div>
+
+            <div class="promo-box">
+                <input type="text" id="promoCode" placeholder="Enter promo code">
+                <button onclick="applyPromo()">Apply</button>
+                <div id="promoMessage" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </div>
+
+            <div class="summary-item">
+                <span>Subtotal:</span>
+                <span>₹<span id="subtotal">0</span></span>
+            </div>
+            <div class="summary-item">
+                <span>Tax (18%):</span>
+                <span>₹<span id="tax">0</span></span>
+            </div>
+            <div class="summary-item">
+                <span>Shipping:</span>
+                <span style="color: #00a86b; font-weight: 700;">FREE</span>
+            </div>
+            <div class="summary-item">
+                <span>Discount:</span>
+                <span style="color: #e94560;">-₹<span id="discount">0</span></span>
+            </div>
+
+            <div class="summary-total">
+                <span>Total Amount:</span>
+                <span style="color: #e94560;">₹<span id="finalTotal">0</span></span>
+            </div>
+
+            <button class="place-order-btn" onclick="placeOrder()">🎉 PLACE ORDER</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let promoApplied = false;
+let discountAmount = 0;
+
+function initCheckout() {
+    checkLogin();
+    loadOrderSummary();
+    setupPaymentMethods();
+}
+
+function loadOrderSummary() {
+    let cart = getCart();
+    let products = getProducts();
+    let container = document.getElementById("summaryItems");
+    container.innerHTML = "";
+    let subtotal = 0;
+
+    cart.forEach(c => {
+        let p = products.find(x => x.id === c.productId);
+        if (!p) return;
+        subtotal += p.price * c.qty;
+        container.innerHTML += `
+            <div class="summary-item">
+                <span>${p.name} × ${c.qty}</span>
+                <span>₹${(p.price * c.qty).toLocaleString()}</span>
+            </div>
+        `;
+    });
+
+    updateTotals(subtotal);
+}
+
+function updateTotals(subtotal) {
+    let tax = Math.round(subtotal * 0.18);
+    let total = subtotal + tax - discountAmount;
+
+    document.getElementById("subtotal").innerText = subtotal.toLocaleString();
+    document.getElementById("tax").innerText = tax.toLocaleString();
+    document.getElementById("discount").innerText = discountAmount.toLocaleString();
+    document.getElementById("finalTotal").innerText = total.toLocaleString();
+}
+
+function applyPromo() {
+    let code = document.getElementById("promoCode").value.toUpperCase();
+    let message = document.getElementById("promoMessage");
+    let cart = getCart();
+    let products = getProducts();
+    let subtotal = 0;
+
+    cart.forEach(c => {
+        let p = products.find(x => x.id === c.productId);
+        if (p) subtotal += p.price * c.qty;
+    });
+
+    const promoCodes = {
+        "SAVE10": { discount: 0.10, msg: "10% discount applied! 🎉" },
+        "SAVE20": { discount: 0.20, msg: "20% discount applied! 🎉" },
+        "NEWUSER": { discount: 0.15, msg: "15% new user discount! 🎁" },
+        "SHOE50": { discount: 0.05, msg: "5% discount applied! ✨" }
+    };
+
+    if (promoCodes[code]) {
+        discountAmount = Math.round(subtotal * promoCodes[code].discount);
+        message.innerText = promoCodes[code].msg;
+        message.style.color = "#00a86b";
+        promoApplied = true;
+        updateTotals(subtotal);
+    } else {
+        message.innerText = "Invalid promo code ❌";
+        message.style.color = "#e94560";
+        promoApplied = false;
+    }
+}
+
+function setupPaymentMethods() {
+    document.querySelectorAll(".payment-option input").forEach(input => {
+        input.addEventListener("change", function() {
+            document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("active"));
+            this.parentElement.classList.add("active");
+        });
+    });
+}
+
+function validateForm() {
+    const fields = ["firstName", "lastName", "email", "phone", "address", "city", "postalCode", "state"];
+    for (let field of fields) {
+        if (!document.getElementById(field).value.trim()) {
+            alert(`Please fill in all shipping details!`);
+            return false;
+        }
+    }
+
+    let payment = document.querySelector("input[name='payment']:checked").value;
+    if (payment === "card") {
+        let cardFields = ["cardNumber", "expiry", "cvv", "cardholderName"];
+        for (let field of cardFields) {
+            if (!document.getElementById(field).value.trim()) {
+                alert("Please fill in all card details!");
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function placeOrder() {
+    if (!validateForm()) return;
+
+    let cart = getCart();
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    let order = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString(),
+        items: cart,
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        state: document.getElementById("state").value,
+        postal: document.getElementById("postalCode").value,
+        payment: document.querySelector("input[name='payment']:checked").value,
+        status: "Confirmed"
+    };
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.removeItem("cart");
+
+    alert("✅ Order placed successfully!\n\nOrder ID: " + order.id + "\nThank you for shopping with ShoeBay!");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
