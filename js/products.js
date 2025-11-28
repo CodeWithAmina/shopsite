@@ -19,42 +19,42 @@ function displayProducts() {
                 name: "Nike Air Max 90",
                 price: 8999,
                 description: "Classic running shoes with excellent cushioning and breathable mesh",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23FF6B6B' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 Nike Air Max 90%3C/text%3E%3C/svg%3E"
+                img: "images/nike.svg"
             },
             {
                 id: 1002,
                 name: "Adidas Ultraboost 22",
                 price: 12999,
                 description: "Premium running shoes with responsive boost technology for maximum comfort",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%234E7FFF' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 Adidas Ultraboost%3C/text%3E%3C/svg%3E"
+                img: "images/adidas.svg"
             },
             {
                 id: 1003,
                 name: "Puma RS-X Retro",
                 price: 7499,
                 description: "Retro style sneakers perfect for casual wear and daily comfort",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23FFB100' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 Puma RS-X%3C/text%3E%3C/svg%3E"
+                img: "images/puma.svg"
             },
             {
                 id: 1004,
                 name: "Converse Chuck Taylor",
                 price: 4999,
                 description: "Iconic canvas sneakers - a timeless classic for any occasion",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%231a1a2e' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 Converse Chuck%3C/text%3E%3C/svg%3E"
+                img: "images/converse.svg"
             },
             {
                 id: 1005,
                 name: "Vans Old Skool",
                 price: 5499,
                 description: "Durable skate shoes with timeless design and great ankle support",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%2300D084' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 Vans Old Skool%3C/text%3E%3C/svg%3E"
+                img: "images/vans.svg"
             },
             {
                 id: 1006,
                 name: "New Balance 990v5",
                 price: 11999,
                 description: "Premium cushioned running shoes with superior arch support and stability",
-                img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23E94560' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dy='.3em'%3E👟 New Balance%3C/text%3E%3C/svg%3E"
+                img: "images/newbalance.svg"
             }
         ];
         saveProducts(products);
