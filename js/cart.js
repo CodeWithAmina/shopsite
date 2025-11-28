@@ -44,7 +44,7 @@ function loadCart() {
             <div class="card-body cart-card">
                 <div>
                     <h5>${p.name}</h5>
-                    <p class="text-muted">₹${p.price} × ${c.qty} = <strong>₹${p.price * c.qty}</strong></p>
+                    <p class="text-muted"><strong style="color: #e94560;">₹${p.price}</strong> × ${c.qty} = <strong style="color: #e94560; font-size: 1.1rem;">₹${p.price * c.qty}</strong></p>
                 </div>
                 <button class="btn btn-danger btn-sm" onclick="removeFromCart(${c.productId})">🗑️ Remove</button>
             </div>

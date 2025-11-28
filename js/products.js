@@ -85,7 +85,7 @@ function displayProducts() {
                     <div class="product-footer">
                         <div>
                             <span class="original-price">₹${(p.price * 1.3).toLocaleString()}</span>
-                            <span class="product-price">₹${p.price.toLocaleString()}</span>
+                            <span class="price-symbol">₹</span><span class="product-price">${p.price.toLocaleString()}</span>
                             <span class="discount-badge">-25%</span>
                         </div>
                         ${user.email === "admin@gmail.com"
