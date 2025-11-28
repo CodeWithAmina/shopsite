@@ -16,45 +16,45 @@ function displayProducts() {
         products = [
             {
                 id: Date.now(),
-                name: "Premium Wireless Headphones",
-                price: 2999,
-                description: "High-quality sound with noise cancellation and 30-hour battery life",
-                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop"
+                name: "Nike Air Max 90",
+                price: 8999,
+                description: "Classic running shoes with excellent cushioning and breathable mesh",
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 1,
-                name: "Smart Watch Pro",
-                price: 4999,
-                description: "Advanced fitness tracking, heart rate monitor, and 7-day battery",
-                img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop"
+                name: "Adidas Ultraboost 22",
+                price: 12999,
+                description: "Premium running shoes with responsive boost technology for maximum comfort",
+                img: "https://images.unsplash.com/photo-1584633733177-7c5d5c6635d6?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 2,
-                name: "USB-C Portable Charger",
-                price: 1499,
-                description: "Fast charging 20000mAh power bank with dual USB-C ports",
-                img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=500&fit=crop"
+                name: "Puma RS-X Retro",
+                price: 7499,
+                description: "Retro style sneakers perfect for casual wear and daily comfort",
+                img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 3,
-                name: "4K Webcam",
-                price: 3499,
-                description: "Crystal clear 4K video for streaming and video calls",
-                img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&h=500&fit=crop"
+                name: "Converse Chuck Taylor",
+                price: 4999,
+                description: "Iconic canvas sneakers - a timeless classic for any occasion",
+                img: "https://images.unsplash.com/photo-1597045814000-4f2490a967d6?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 4,
-                name: "Mechanical Gaming Keyboard",
-                price: 3999,
-                description: "RGB backlit with cherry MX switches and aluminum frame",
-                img: "https://images.unsplash.com/photo-1587829191301-15ba540a9108?w=500&h=500&fit=crop"
+                name: "Vans Old Skool",
+                price: 5499,
+                description: "Durable skate shoes with timeless design and great ankle support",
+                img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500&h=500&fit=crop"
             },
             {
                 id: Date.now() + 5,
-                name: "Premium Mouse Pad",
-                price: 899,
-                description: "Large extended gaming mouse pad with non-slip base",
-                img: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&h=500&fit=crop"
+                name: "New Balance 990v5",
+                price: 11999,
+                description: "Premium cushioned running shoes with superior arch support and stability",
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop"
             }
         ];
         saveProducts(products);
@@ -68,13 +68,26 @@ function displayProducts() {
             <div class="product-card">
                 <div class="product-image">
                     <img src="${p.img}" alt="${p.name}">
-                    <span class="product-badge">Hot Deal</span>
+                    <span class="product-badge">🔥 Limited Stock</span>
                 </div>
                 <div class="product-info">
+                    <p class="product-category">Premium Footwear</p>
                     <h3 class="product-name">${p.name}</h3>
                     <p class="product-description">${p.description}</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
                     <div class="product-footer">
-                        <span class="product-price">₹${p.price.toLocaleString()}</span>
+                        <div>
+                            <span class="original-price">₹${(p.price * 1.3).toLocaleString()}</span>
+                            <span class="product-price">₹${p.price.toLocaleString()}</span>
+                            <span class="discount-badge">-25%</span>
+                        </div>
                         ${user.email === "admin@gmail.com"
                             ? `
                                 <div class="admin-btn-group">
@@ -82,7 +95,7 @@ function displayProducts() {
                                     <button class="btn btn-danger btn-sm" onclick="removeProduct(${p.id})">🗑️ Delete</button>
                                 </div>
                               `
-                            : `<button class="add-to-cart-btn" onclick="addToCart(${p.id})">🛒 Add</button>`
+                            : `<button class="add-to-cart-btn" onclick="addToCart(${p.id})">🛒 ADD TO CART</button>`
                         }
                     </div>
                 </div>
